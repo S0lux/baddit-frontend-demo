@@ -2,10 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+.dark {
+  color-scheme: dark;
+  --background: 18, 18, 18;
+  --background-secondary: 28, 28, 28;
+  --text-primary: 245, 245, 245;
+  --text-secondary: 200, 200, 200;
+  --accent: 192, 151, 17;
+}
+
+.light {
+  color-scheme: light;
+  --background: 225, 225, 225;
+  --background-secondary: 255, 255, 255;
+  --text-primary: 18, 18, 18;
+  --text-secondary: 100, 100, 100;
+  --accent: 192, 151, 17;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -16,18 +28,20 @@
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-}
-
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  @apply transition-colors duration-200;
 }

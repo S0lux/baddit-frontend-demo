@@ -14,9 +14,26 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const setInitialTheme = `
+    function getUserPreference() {
+      if(window.localStorage.getItem('theme')) {
+        return window.localStorage.getItem('theme')
+      }
+      return window.matchMedia('(prefers-color-scheme: dark)').matches
+                ? 'dark'
+                : 'light'
+    }
+    
+    const theme = getUserPreference();
+    if (theme === 'dark') document.documentElement.classList.add("dark");
+  `;
+
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: setInitialTheme }} />
+      </head>
+      <body className={`${inter.className} bg-background min-h-screen`}>{children}</body>
     </html>
   );
 }

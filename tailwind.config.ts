@@ -10,11 +10,18 @@ const config: Config = {
     extend: {
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+        "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+      },
+      colors: {
+        background: "rgba(var(--background))",
+        backgroundSecondary: "rgba(var(--background-secondary))",
+        textPrimary: "rgba(var(--text-primary))",
+        textSecondary: "rgba(var(--text-secondary))",
+        accent: "rgba(var(--accent))",
       },
     },
   },
   plugins: [],
+  darkMode: "class",
 };
 export default config;
