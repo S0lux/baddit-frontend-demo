@@ -28,15 +28,17 @@ export const RegisterForm = () => {
     setStatus(undefined);
     setLoading(true);
 
-    try {
-      const response = await axios.post("https://api.baddit.life/v1/auth/signup", data);
-    } catch (err: any) {
-      setStatus("error");
-      setMessage(err.response?.data.error.message || "An error occurred, please try again later");
-    }
+    await axios
+      .post("https://api.baddit.life/v1/auth/signup", data)
+      .then((res) => {
+        setStatus("success");
+        setMessage("Account created successfully, please check your email for further instruction.");
+      })
+      .catch((err) => {
+        setStatus("error");
+        setMessage(err.response?.data.error.message || "An error occurred, please try again later");
+      });
 
-    setStatus("success");
-    setMessage("Account created successfully, please check your email for further instruction.");
     setLoading(false);
   };
 
