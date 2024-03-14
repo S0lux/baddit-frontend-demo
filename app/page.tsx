@@ -15,7 +15,7 @@ export default function Home() {
         <Card className="m-12 w-1/3">
           <CardHeader title="Create an account" />
           <CardSubheader subheader="Start posting on baddit today by creating an account" />
-          <CardContent className="mb-10 mt-2">
+          <CardContent className="mt-2">
             <RegisterForm />
           </CardContent>
         </Card>

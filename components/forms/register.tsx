@@ -8,9 +8,13 @@ import { z } from "zod";
 import { useState } from "react";
 import { ImSpinner2 } from "react-icons/im";
 import { motion } from "framer-motion";
+import axios, { AxiosError } from "axios";
+import { Alert, AlertType } from "../ui/alert";
 
 export const RegisterForm = () => {
   const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState<AlertType>();
+  const [message, setMessage] = useState<string>();
 
   const {
     register,
@@ -20,12 +24,20 @@ export const RegisterForm = () => {
     resolver: zodResolver(registerFormSchema),
   });
 
-  const onSubmit: SubmitHandler<z.infer<typeof registerFormSchema>> = (data) => {
+  const onSubmit: SubmitHandler<z.infer<typeof registerFormSchema>> = async (data) => {
+    setStatus(undefined);
     setLoading(true);
-    setTimeout(() => {
-      console.log(data);
-      setLoading(false);
-    }, 5000);
+
+    try {
+      const response = await axios.post("https://api.baddit.life/v1/auth/signup", data);
+    } catch (err: any) {
+      setStatus("error");
+      setMessage(err.response?.data.error.message || "An error occurred, please try again later");
+    }
+
+    setStatus("success");
+    setMessage("Account created successfully, please check your email for further instruction.");
+    setLoading(false);
   };
 
   return (
@@ -39,9 +51,11 @@ export const RegisterForm = () => {
       <FormTextInput type="text" title="Email" {...register("email")} error={errors.email?.message} />
       <FormTextInput type="password" title="Password" {...register("password")} error={errors.password?.message} />
 
-      <button type="submit" className="bg-accent text-textPrimary mt-5 h-10 w-full rounded-md p-2" disabled={loading}>
+      <button type="submit" className="mt-5 h-10 w-full rounded-md bg-accent p-2 text-textPrimary" disabled={loading}>
         {loading ? <ImSpinner2 className="w-full animate-spin" /> : "Register"}
       </button>
+
+      {status && <Alert message={message || ""} type={status} />}
     </form>
   );
 };
